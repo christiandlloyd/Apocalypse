@@ -40,7 +40,7 @@ print("It is up to you to stop him, hero, lest the universe fall into the hands 
 while True:
      playerClassName = input("To begin your journey, select one of the following classes: Cleric, Mage, Thief, Warrior.\n").lower()
      if playerClassName not in Characters.keys():
-         print("That is not an available class, please try again.")
+         print(failedInput)
          continue
      else:
         while True:
