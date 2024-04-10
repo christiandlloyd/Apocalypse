@@ -41,5 +41,6 @@ while True:
             break
         else:
             continue
+playerClass = classlist.Characters[playerClassName]
          
 
