@@ -21,7 +21,7 @@ print("Welcome to 'Apocalypse!' An evil sorcerer,", warlockName,"threatens to de
 print("It is up to you to stop him, hero, lest the universe fall into the hands of evil once more.")
 while True:
      playerClassName = input("To begin your journey, select one of the following classes: Cleric, Mage, Thief, Warrior.\n").lower()
-     if playerClassName not in Characters.keys():
+     if playerClassName not in classlist.Characters.keys():
          print(failedInput)
          continue
      else:
