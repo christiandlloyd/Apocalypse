@@ -1,5 +1,6 @@
 import functions.py
 import random
+import classlist.py
 
 
 #Generates name for warlock
