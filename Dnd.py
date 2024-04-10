@@ -1,26 +1,6 @@
+import functions.py
 import random
-random.seed()
-def d(a): #rolls a dice. a will typically be 2,4,6,8,10,12,20, or 100.
-    return random.randint(1,a)
-def attack(attackBonus, armorclass = 10): #This is how we roll attacks
-    if (d(20)+attackBonus -7 < armorclass): #Critical Hit
-        return 2
-    elif (d(20)+attackBonus < armorclass):
-        return 1
-    else:
-        return 0
-applyPoison = random.randrange(0,1) #Just checks if poison needs to be added to damage
-grappled = random.randint(0,1) #Checks if enemy is grappled
 
-failedInput = "Input not recognized." #General failed input message
-
-
-#Below are default classes
-Mage ={"Health" : 15, "ArmorClass" : 14, "Skills":{"Burn":{"Damage":10,"Bonus": 2},"Zap":{"Damage":12,"Bonus": 1},"Chill":{"Damage":8,"Bonus": 3}}, "Stats":{"Dex":0,"Str":-1,"Wis":1,"Int":2}}
-Theif ={"Health" : 17, "ArmorClass" : 17, "Skills":{"Stab":{"Damage":10,"Bonus": 3},"Slice":{"Damage":8,"Bonus": 4},"Poisoned Blade":{"Damage":12,"Bonus": 4, "Status": applyPoison}}, "Stats":{"Dex":2,"Str":0,"Wis":-1,"Int":1}}
-Cleric = {"Health" : 20, "ArmorClass" : 16, "Skills":{"Hammer Slam":{"Damage":8,"Bonus": 3},"Smite":{"Damage":10,"Bonus": 2},"Cure Wounds":{"Healing": 8}}, "Stats":{"Dex":-1,"Str":1,"Wis":2,"Int":0}}
-Warrior = {"Health" : 24, "ArmorClass" : 15, "Skills":{"Wrestle":{"Status": grappled,"Bonus": 2},"Shield Bash":{"Damage":12,"Bonus": 1},"Slash":{"Damage":10,"Bonus": 3}}, "Stats":{"Dex":1,"Str":2,"Wis":0,"Int":-1}}
-Characters = {"mage": Mage,"cleric": Cleric,"warrior": Warrior,"theif": Theif}
 
 #Generates name for warlock
 warlock1 = ["Zarg", "Vil","Varth","Mor","Gul","Dorn","Hor", "Vorn","Zil","Org"]
