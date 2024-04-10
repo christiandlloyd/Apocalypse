@@ -2,6 +2,7 @@ import functions.py
 import random
 import classlist.py
 
+random.seed()
 
 #Generates name for warlock
 warlock1 = ["Zarg", "Vil","Varth","Mor","Gul","Dorn","Hor", "Vorn","Zil","Org"]
