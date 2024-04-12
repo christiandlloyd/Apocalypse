@@ -1,5 +1,5 @@
 import random
-import classlist
+import class_and_item_list
 
 failedInput = "No valid input detected."
 random.seed()
@@ -16,11 +16,12 @@ def damage (activeClass,skill): #How damage is determined
     return(d(activeClass["Skills"][skill]["Damage"]))
 def startGame(): #Start of game loop where the player selects characters
     while True:
-     global playerClassName = input("To begin your journey, select one of the following classes: Cleric, Mage, Thief, Warrior.\n").lower()
+     global playerClassName
+     playerClassName = input("To begin your journey, select one of the following classes: Cleric, Mage, Thief, Warrior.\n").lower()
      if playerClassName == "main menu":
          MainMenu()
-         breakn
-     if playerClassName not in classlist.Characters.keys():
+         break
+     if playerClassName not in class_and_item_list.Characters.keys():
          print(failedInput)
          continue
      else:
@@ -42,7 +43,7 @@ def startGame(): #Start of game loop where the player selects characters
             continue
     return
 
-def MainMenu() #Opens a main menu function
+def MainMenu(): #Opens a main menu function
     while True:
         command = input("Would you like to 'Start' a game, or 'Exit' the program?\n").lower()
         if command == "start":
