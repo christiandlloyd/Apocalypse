@@ -38,3 +38,5 @@ def startGame(): #Start of game loop where the player selects characters
         else:
             continue
     return playerClassName
+
+def MainMenu()
