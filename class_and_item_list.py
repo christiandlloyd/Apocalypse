@@ -6,3 +6,9 @@ Thief ={"Health" : 17, "ArmorClass" : 15, "Skills":{"Stab":{"Damage":10,"Bonus":
 Cleric = {"Health" : 20, "ArmorClass" : 16, "Skills":{"Hammer Slam":{"Damage":8,"Bonus": 3},"Smite":{"Damage":10,"Bonus": 2},"Cure Wounds":{"Healing": 8}}, "Stats":{"Dex":-1,"Str":1,"Wis":2,"Int":0}}
 Warrior = {"Health" : 24, "ArmorClass" : 17, "Skills":{"Wrestle":{"Status": conditions.grappled,"Bonus": 2},"Shield Bash":{"Damage":12,"Bonus": 1},"Slash":{"Damage":10,"Bonus": 3}}, "Stats":{"Dex":1,"Str":2,"Wis":0,"Int":-1}}
 Characters = {"mage": Mage,"cleric": Cleric,"warrior": Warrior,"thief": Thief}
+
+Sword1 = {"Bonus":1}
+Apple = {"Healing":4, "Uses" : 1}
+Weapons = [,]
+Armor =[,]
+Consumables = [,]
