@@ -20,7 +20,7 @@ print("Welcome to 'Apocalypse!' An evil sorcerer,", warlockName,"threatens to de
 
 #Determines player's default class. While loop lets them confirm their class, and select another class if need be.
 print("It is up to you to stop him, hero, lest the universe fall into the hands of evil once more.")
-
-playerClass = classlist.Characters[functions.startGame()]
+functions.MainMenu()
+playerClass = classlist.Characters[functions.playerClassName]
 print(playerClass)
 
