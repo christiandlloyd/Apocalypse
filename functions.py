@@ -54,3 +54,19 @@ def MainMenu(): #Opens a main menu function
         else:
             print(failedInput)
             continue
+def GenerateMap(): #Generates a 11x11 map for the player to navigate. Row 11 column 6 will always have the boss
+  map = []
+  roomTypes = ["Monster","Treasure","Rest","Shop","Mini-Boss"]
+  for x in range(10):
+    row = []
+    for column in range(11):
+      row.append(roomTypes[random.randint(0,4)])
+    map.append(row)
+  row = []
+  for x in range(11):
+    if x == 5:
+      row.append("Final-Boss")
+    else:
+      row.append(roomTypes[random.randint(0,4)])
+  map.append(row)
+  return map
