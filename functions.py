@@ -17,7 +17,7 @@ def damage (activeClass,skill): #How damage is determined
 def startGame(): #Start of game loop where the player selects characters
     while True:
      global playerClassName
-     playerClassName = input("To begin your journey, select one of the following classes: Cleric, Mage, Thief, Warrior.\n").lower()
+     playerClassName = input("To begin your journey, select one of the following classes: Cleric, Mage, Thief, Warrior. Or, you may type 'main menu' to return to the main menu.\n").lower()
      if playerClassName == "main menu":
          MainMenu()
          break
