@@ -1,6 +1,11 @@
 import random
 import class_and_item_list
-
+import sys,time
+def prints(str): #Causes text to print slowly
+    for letter in str:
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(0.01)
 failedInput = "No valid input detected."
 random.seed()
 def d(a): #rolls a dice. a will typically be 2,4,6,8,10,12,20, or 100.
@@ -16,7 +21,8 @@ def damage (activeClass,skill): #How damage is determined
     return(d(activeClass["Skills"][skill]["Damage"]))
 def startGame(): #Start of game loop where the player selects characters
     while True:
-     playerClassName = input("To begin your journey, select one of the following classes: Cleric, Mage, Thief, Warrior. Or, you may type 'main menu' to return to the main menu.\n").lower()
+     prints("To begin your journey, select one of the following classes: Cleric, Mage, Thief, Warrior. Or, you may type 'main menu' to return to the main menu.\n")
+     playerClassName = input().lower()
      if playerClassName == "main menu":
          MainMenu()
          break
@@ -25,16 +31,18 @@ def startGame(): #Start of game loop where the player selects characters
            if playerClassName == defaultClass.name.lower():
               playerClass = defaultClass
         while True:
-            print("You have selected", playerClassName.title()+", is that correct? Y/n")
+            string = "You have selected ", playerClassName.title()+", is that correct? Y/n\n"
+            prints(string)
             confirmed = input().lower()
             if confirmed == "y":
-                print("Welcome,",playerClassName.title()+", let us begin your journey...")
+                text = "Welcome, "+playerClassName.title()+", let us begin your journey..."
+                prints(text)
                 break
             elif confirmed == "n":
-                print("Please select another class, then.")
+                prints("Please select another class, then.")
                 break
             else:
-                print(failedInput)
+                prints(failedInput)
                 continue
         if confirmed == "y":
             break
@@ -44,18 +52,26 @@ def startGame(): #Start of game loop where the player selects characters
 
 def MainMenu(): #Opens a main menu function
     while True:
-        command = input("Would you like to 'Start' a game, or 'Exit' the program?\n").lower()
+        prints("Would you like to 'Start' a game, or 'Exit' the program?\n")
+        command = input().lower()
         if command == "start":
             return startGame()
         elif command == "exit":
             exit()
         else:
-            print(failedInput)
+            prints(failedInput)
             continue
 def GenerateMap(): #Generates a 11x11 map for the player to navigate. Row 11 column 6 will always have the boss
   map = []
   roomTypes = ["Monster","Treasure","Rest","Shop","Mini-Boss"]
-  for x in range(10):
+  row = []
+  for x in range(11):
+    if x == 5:
+      row.append("Start Room")
+    else:
+      row.append(roomTypes[random.randint(0,4)])
+  map.append(row)
+  for x in range(9):
     row = []
     for column in range(11):
       row.append(roomTypes[random.randint(0,4)])
@@ -69,7 +85,7 @@ def GenerateMap(): #Generates a 11x11 map for the player to navigate. Row 11 col
   map.append(row)
   return map
 def WarlockNameGen(): #Generates the Name for the warlock.
-    warlock1 = ["Zarg", "Vil","Varth","Mor","Gul","Dorn","Hor", "Vorn","Zil","Org"]
+    warlock1 = ["Zarg", "Vil","Varth","Mor","Gul","Dorn","Hor", "Vorn","Zil","Ork"]
     warlock2 = ["a","e","i","o","u","y","oa","ua","ia","'"]
     warlock3 = ["thrax","vax","vixis", "dan","grol","zal","x","dol","xill","ks","lich"]
     return warlock1[random.randint(0,9)]+warlock2[random.randint(0,9)]+warlock3[random.randint(0,9)]
