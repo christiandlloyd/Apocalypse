@@ -1,6 +1,6 @@
 from functions import *
 import random
-import class_and_item_list
+from class_and_item_list import *
 random.seed()
 
 
@@ -10,3 +10,4 @@ prints(string)
 prints(" It is up to you to stop him, hero, lest the universe fall into the hands of evil once more.\n")
 
 playerClass = MainMenu()
+print(sword.varList)

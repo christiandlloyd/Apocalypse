@@ -1,4 +1,5 @@
 import conditions
+skillList=[]
 class Skill: #General Skill stuff
     def __init__(self,name,bonus,damage):
         self.name = name
@@ -6,6 +7,7 @@ class Skill: #General Skill stuff
         self.damage = damage
         self.healing = 0
         self.conditions = []
+        skillList.append(self)
     def addCondition(self, condition):
         self.conditions.append(condition)
 Burn = Skill("Burn",2,8)
@@ -24,9 +26,10 @@ Smite = Skill("Smite",3,8)
 CureWounds = Skill("Cure Wounds",0,0)
 CureWounds.healing = 8
 Slash = Skill("Slash",2,10)
+SolarBeam = Skill("Solar Beam",9999,1)
 
 
-
+Characters = []
 class Character: #Class for a character set up, intakes stats and default Health and Armor
     def __init__(self,name,dex,int,wis,str,health,armorclass):
         self.name = name
@@ -39,6 +42,7 @@ class Character: #Class for a character set up, intakes stats and default Health
         self.wis = str
         self.appliedConditions = []
         self.items = []
+        Characters.append(self)
     def addCondition(self, condition):
         self.appliedConditions.append(condition)
     def remCondition(self, condition):
@@ -48,43 +52,55 @@ class Character: #Class for a character set up, intakes stats and default Health
     def remSkill(self,skill):
         self.skills.pop(skill)
 #Below are default classes
+Cleric = Character("Cleric",-1,0,2,1,20,16)
+Cleric.addSkills(CureWounds);Cleric.addSkills(Slam);Cleric.addSkills(Smite)
 Mage = Character("Mage",0,2,1,-1,15,14)
 Mage.addSkills(Burn);Mage.addSkills(Chill);Mage.addSkills(Zap)
 Thief = Character("Thief",2,1,0,-1,17,15)
 Thief.addSkills(Stab);Thief.addSkills(Slice);Thief.addSkills(Poke)
-Cleric = Character("Cleric",-1,0,2,1,20,16)
-Cleric.addSkills(CureWounds);Cleric.addSkills(Slam);Cleric.addSkills(Smite)
 Warrior = Character("Warrior",1,-1,0,2,24,17)
 Warrior.addSkills(ShieldBash);Warrior.addSkills(Chop);Warrior.addSkills(Slash)
-Characters = [Mage,Thief,Cleric,Warrior]
 
-Sword1 = {"Bonus":1}
-Sword2 = {"Bonus":2}
-Sword3 = {"Bonus":3}
-Wand1= {"Bonus":1,"Skills":Burn}
-Wand2= {"Bonus":2,"Skills":Burn}
-Wand3= {"Bonus":3,"Skills":Burn}
-Shield1 = {"Armor":1,"Skills":ShieldBash}
-Shield2 = {"Armor":2,"Skills":ShieldBash}
-Shield3 = {"Armor":3,"Skills":ShieldBash}
-Dagger1 = {"Bonus":1,"Skills":Poke}
-Dagger2 = {"Bonus":2,"Skills":Poke}
-Dagger3 = {"Bonus":3,"Skills":Poke}
-Book1 = {"Bonus":1,"Skills":CureWounds}
-Book2 = {"Bonus":2,"Skills":CureWounds}
-Book3 = {"Bonus":3,"Skills":CureWounds}
-Axe1 = {"Bonus":1,"Skills":Chop}
-Axe2 = {"Bonus":2,"Skills":Chop}
-Axe3 = {"Bonus":3,"Skills":Chop}
-Leather = {"ArmorClass":1}
-Iron = {"ArmorClass":2}
-Steel = {"ArmorClass":3}
-Apple = {"Healing":4, "Uses" :1}
-Apple_strudel = {"Healing":8, "Uses": 1}
-Apple_pie = {"Healing":16, "Uses": 1}
-Watermelon = {"ArmorClass": 1, "Uses":1}
-Watermelon_smoothy = {"ArmorClass":2, "Uses":1}
-Watermelon_sorbet = {"ArmorClass":3, "Uses":1}
-Weapons = [Sword1,Sword2,Sword3, Wand1,Wand2,Wand3,Dagger1,Dagger2,Dagger3,Book1,Book2,Book3,Axe1,Axe2,Axe3]
-Armor =[Leather, Iron, Steel,Shield1,Shield2,Shield3]
-Consumables = [Apple,Apple_strudel,Apple_pie,Watermelon,Watermelon_smoothy,Watermelon_sorbet]
+
+ItemsList = []
+class Items: #Class for Items
+    def __init__(self,name,variations,bonus,type,uses):
+        self.name = name
+        self.bonus = bonus
+        self.type = type
+        self.uses = uses
+        self.varList = []
+        self.skillList = []
+        ItemsList.append(self)
+        for x in range(variations+1): #Creates a list of item variations, ie Sword, sword+1, sword+2...
+            if x == 0:
+                self.varList.append(self.name)
+            else:
+                self.varList.append(self.name+" + "+str(x))
+    def addSkill(self,skill): #Gives skill to an item, such as a weapon having an attached skill.
+        self.skillList.append(skill)
+        
+sword = Items("Sword",3,0,"Weapon",999)
+sword.addSkill(Slash)
+wand = Items("Wand",3,0,"Weapon",999)
+wand.addSkill(Burn)
+shield = Items("Shield",3,0,"Off-Hand",999)
+shield.addSkill(ShieldBash)
+dagger = Items("Dagger",3,0,"Weapon",999)
+dagger.addSkill(Poke)
+holyBook = Items("Holy Book",3,0,"Off-Hand",999)
+holyBook.addSkill(CureWounds)
+axe = Items("Axe",3,0,"Weapon",999)
+axe.addSkill(Chop)
+gloryHammer = Items("Hammer of Glory",1,0,"Weapon",1)
+gloryHammer.addSkill(SolarBeam)
+leatherArmor = Items("Leather Armor",1,1,"Armor",999)
+ironArmor = Items("Iron Armor",1,2,"Armor",999)
+steelArmor = Items("Steel Armor",1,3,"Armor",999)
+apple = Items("Apple",1,4,"Healing",1)
+appleStrudel = Items("Apple Strudel",1,8,"Healing",1)
+applePie = Items("Apple Pie",1,16,"Healing",1)
+watermelon = Items("Watermelon",1,1,"ArmorBuff",1)
+watermelonSmoothie = Items("Watermelon Smoothie",1,2,"ArmorBuff",1)
+watermelonSorbet = Items("Watermelon Sorbet",1,3,"ArmorBuff",1)
+
