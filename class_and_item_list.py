@@ -1,12 +1,14 @@
 import conditions
 skillList=[]
 class Skill: #General Skill stuff
-    def __init__(self,name,bonus,damage):
+    def __init__(self,name,bonus,damage,type = "Attack"):
         self.name = name
         self.bonus = bonus
         self.damage = damage
         self.healing = 0
+        self.type = type
         self.conditions = []
+        self.gold = 0
         skillList.append(self)
     def addCondition(self, condition):
         self.conditions.append(condition)
@@ -23,7 +25,7 @@ Chop = Skill("Chop",0,16)
 ShieldBash = Skill("Shield Bash",2,8)
 ShieldBash.addCondition(conditions.grappled)
 Smite = Skill("Smite",3,8)
-CureWounds = Skill("Cure Wounds",0,0)
+CureWounds = Skill("Cure Wounds",0,0, "Healing")
 CureWounds.healing = 8
 Slash = Skill("Slash",2,10)
 SolarBeam = Skill("Solar Beam",9999,1)
@@ -35,7 +37,8 @@ class Character: #Class for a character set up, intakes stats and default Health
         self.name = name
         self.health = health
         self.armorClass = armorclass
-        self.skills = []
+        self.skills = {}
+        self.skillNames = []
         self.dex = dex
         self.str = int
         self.int = wis
@@ -48,7 +51,8 @@ class Character: #Class for a character set up, intakes stats and default Health
     def remCondition(self, condition):
         self.appliedConditions.pop(condition)
     def addSkills(self, skill1):
-        self.skills.append(skill1)
+        self.skills[skill1.name] = skill1
+        self.skillNames.append(skill1.name)
     def remSkill(self,skill):
         self.skills.pop(skill)
 #Below are default classes

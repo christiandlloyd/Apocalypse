@@ -10,6 +10,7 @@ class Conditions:
         Proc = False
         if random.randint(1,100) <= self.chance:
             Proc = True
+        return Proc
 
 poisoned = Conditions("Poisoned",)
 poisoned.turns = 4
