@@ -8,7 +8,7 @@ class Skill: #General Skill stuff
         self.healing = 0
         self.type = type
         self.conditions = []
-        self.gold = 0
+        self.count = 0
         skillList.append(self)
     def addCondition(self, condition):
         self.conditions.append(condition)
@@ -29,6 +29,11 @@ CureWounds = Skill("Cure Wounds",0,0, "Healing")
 CureWounds.healing = 8
 Slash = Skill("Slash",2,10)
 SolarBeam = Skill("Solar Beam",9999,1)
+EldritchBlast = Skill("Eldritch Blast", 3, 6)
+RitualChant = Skill("Ritual Chant",0,0)
+Claw = Skill("Claw", 4,4)
+Bite = Skill("Bite",0,2)
+Decay = Skill("Decay",2,10,conditions.poisoned)
 
 
 Characters = []
@@ -36,6 +41,7 @@ class Character: #Class for a character set up, intakes stats and default Health
     def __init__(self,name,dex,int,wis,str,health,armorclass):
         self.name = name
         self.health = health
+        self.maxHealth = health
         self.armorClass = armorclass
         self.skills = {}
         self.skillNames = []
