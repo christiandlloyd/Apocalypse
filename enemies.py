@@ -16,6 +16,7 @@ class Enemy: #Class for enemies, sorts them into enemies and mini-bosses,as well
         self.skills = {}
         self.skillNames = []
         self.appliedConditions = []
+        self.appliedConditionsDict = {}
         if named and mini:
             self.name = name
             miniBossList.append(self)
@@ -28,10 +29,13 @@ class Enemy: #Class for enemies, sorts them into enemies and mini-bosses,as well
         
     def addCondition(self, condition):
         self.appliedConditions.append(condition)
+        self.appliedConditionsDict[condition] = condition.turns
     def remCondition(self, condition):
         self.appliedConditions.pop(condition)
+        del self.appliedConditionsDict[condition]
     def addSkills(self, skill1):
         self.skills[skill1.name] = skill1
+        self.skillNames.append(skill1.name)
 
         #Bosses get 5 skills, Mini 4, regular 3/2
 warlock = Enemy(warlockName,100,18,True)
