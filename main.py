@@ -10,4 +10,5 @@ prints("Welcome to 'Apocalypse!' An evil sorcerer, ", warlockName," threatens to
 
 prints(" It is up to you to stop him, hero, lest the universe fall into the hands of evil once more.\n")
 
-playerClass = MainMenu()
+player = MainMenu()
+Movement(GenerateMap())
