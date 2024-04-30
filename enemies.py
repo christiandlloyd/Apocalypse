@@ -25,7 +25,7 @@ class Enemy: #Class for enemies, sorts them into enemies and mini-bosses,as well
         self.skills = []
         self.appliedConditions = []
         self.appliedConditionsDict = {}
-        self.text = text
+        self.text = text + "\n"
         self.int = int
         self.dex = dex
         self.str = str
@@ -42,10 +42,10 @@ class Enemy: #Class for enemies, sorts them into enemies and mini-bosses,as well
         
     def addCondition(self, condition):
         self.appliedConditions.append(condition)
-        self.appliedConditionsDict[condition] = condition.turns
+        self.appliedConditionsDict[condition.name] = condition.turns
     def remCondition(self, condition):
-        self.appliedConditions.pop(condition)
-        del self.appliedConditionsDict[condition]
+        self.appliedConditions.pop(self.appliedConditions.index(condition))
+        self.appliedConditionsDict.pop(condition.name)
     def addSkills(self, skill1):
         self.skills.append(skill1)
 

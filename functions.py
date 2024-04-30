@@ -2,30 +2,22 @@ import random
 from class_and_item_list import *
 import sys,time
 from enemies import *
-levelUpXP = 0
-level = 1
 def LevelUpCheck(player):
-    global levelUpXP
-    global level
-    while levelUpXP >= 2^level:
-            prints("You have leveled up! You have gained ",round(player.health*.125),"health and can increase one of your stats by 1 point! Choose between 'int,''dex,''wis,' and 'str' to upgrade!")
-            match input().lower:
-                case "int":
-                    player.int += 1
-                    break
-                case "dex":
-                    player.dex += 1
-                    break
-                case "str":
-                    player.str += 1
-                    break
-                case "wis":
-                    player.wis += 1
-                    break
-                case _:
-                    prints(failedInput)
-            levelUpXP -= 2^level
-            level += 1
+    while player.levelUpXP >= 2^player.level:
+            prints("You have leveled up! You have gained ",round(player.health*.125)," health and can increase one of your stats by 1 point! Choose between 'int,''dex,''wis,' and 'str' to upgrade!\n")
+            a = input().lower()
+            if a == "int":
+                player.int += 1
+            if a == "dex":
+                player.dex += 1
+            if a == "str":
+                player.str += 1
+            if a == "wis":
+                player.wis += 1
+            else:
+                prints(failedInput)
+            player.levelUpXP -= 2^player.level
+            player.level += 1
 
 def prints(string,str1="",str2="",str3="",str4="",str5="",str6 ="",str7 ="",str8 =""):#Causes text to print slowly
     string = str(string)+ str(str1) + str(str2) + str(str3) + str(str4 )+ str(str5) +str(str6)+str(str7)+str(str8)
@@ -76,6 +68,7 @@ def startGame(): #Start of game loop where the player selects characters
             if confirmed == "y":
                 text = "Welcome, "+playerClassName.title()+", let us begin your journey...\n"
                 prints(text)
+                Movement(GenerateMap(),playerClass)
                 break
             elif confirmed == "n":
                 prints("Please select another class, then.")
@@ -87,14 +80,15 @@ def startGame(): #Start of game loop where the player selects characters
             break
         else:
             continue
-    return playerClass
+
 
 def MainMenu(): #Opens a main menu function
     while True:
         prints("Would you like to 'Start' a game, or 'Exit' the program?\n")
         command = input().lower()
         if command == "start":
-            return startGame()
+            startGame()
+            break
         elif command == "exit":
             exit()
         else:
@@ -111,9 +105,9 @@ def CombatLoop(player,enemy): #Combat Loop
         break
     itemsAvailable = []
     if player.appliedConditions != []:
-        for condition in condition:
-                player.appliedConditions[condition]-= 1
-                if player.appliedConditions[condition] == 0:
+        for condition in player.appliedConditions:
+                player.appliedConditionsDict[condition.name]-= 1
+                if player.appliedConditionsDict[condition.name] == 0:
                     player.remCondition(condition)
                 if condition.damage > 0:
                     conditionDamage = d(condition.damage)
@@ -145,7 +139,7 @@ def CombatLoop(player,enemy): #Combat Loop
                prints(skill,"\n")
             skillUsed = input().title()
             if skillUsed in player.skillNames:
-                prints("You used ",skillUsed, "!")
+                prints("You used ",skillUsed, "!\n")
                 action = player.skills[player.skillNames.index(skillUsed)]
                 if action.type == "Healing":
                     healing(action.healing,action.bonus,player)
@@ -159,8 +153,8 @@ def CombatLoop(player,enemy): #Combat Loop
                     if player.skills[player.skillNames.index(skillUsed)].conditions != []:
                         for condition in player.skills[player.skillNames.index(skillUsed)].conditions:
                             if condition.conditionProc():
-                                enemy.appliedConditions.append(condition)
-                                prints("The ",enemy.name," is now ",condition.name,"!\n")
+                                enemy.addCondition(condition)
+                                prints(enemy.name," is now ",condition.name,"!\n")
             else:
                 prints(failedInput)
         elif a == "item":
@@ -186,23 +180,23 @@ def CombatLoop(player,enemy): #Combat Loop
             continue
         #Condition Check on Enemy
         if enemy.appliedConditions != []:
-            for condition in condition:
-                enemy.appliedConditions[condition]-= 1
-                if enemy.aplliedConditions[condition] == 0:
+            for condition in enemy.appliedConditions:
+                enemy.appliedConditionsDict[condition.name]-= 1
+                if enemy.appliedConditionsDict[condition.name] == 0:
                     enemy.remCondition(condition)
                 if condition.damage > 0:
                     conditionDamage = d(condition.damage)
                     enemy.health -= conditionDamage
                     prints(enemy.name, " took ", str(conditionDamage)," damage from being ",condition.name,"!\n")
                 if condition == conditions.frozen or conditions.grappled: #Frozen and Grappled cause a turn skip. Yes, this does mean you could stun lock an enemy
-                    prints(enemy.name," is ", condition.name, " and cannot move!")
-                    continue
+                    prints(enemy.name," is ", condition.name, " and cannot move!\n")
+                    exit()
         if enemy.health <= 0:
-            prints(enemy.name," has been slain. Victory is yours this day.")
+            prints(enemy.name," has been slain. Victory is yours this day.\n")
             break
         else: #Enemy does an attack
             enemySkillUsed = enemy.skills[random.randint(0,len(enemy.skills)-1)]
-            prints(enemy.name," used ",enemySkillUsed,"!")
+            prints(enemy.name," used ",enemySkillUsed.name,"!\n")
             if enemySkillUsed == RitualChant:
                 RitualCount += 1
                 continue
@@ -211,7 +205,7 @@ def CombatLoop(player,enemy): #Combat Loop
             if playerAttacked == 0:
                 prints(enemy.name, " missed!\n")
             else:
-                prints("You took ",playerAttacked," damage!")
+                prints("You took ",playerAttacked," damage!\n")
                 if enemySkillUsed.conditions != []:
                     for condition in enemySkillUsed.conditions:
                         if condition.conditionProc():
@@ -263,10 +257,9 @@ def Monster(player):
 
     prints(enemy.text,"\n")
     CombatLoop(player,enemy)
-    levelUpXP += 4
+    player.levelUpXP += 4
 def MiniBoss(player):
     randomGen = random.randint(0,1)
-    global levelUpXP
     enemy = miniBossList[randomGen]
     if randomGen == 0:
         enemy.name = WarlockNameGen()
@@ -278,24 +271,20 @@ def MiniBoss(player):
             enemy.name = demonNameGen()
     prints(enemy.text)
     CombatLoop(player, enemy)
-    levelUpXP += 10
-
-    prints(enemy.text,"\n")
-    CombatLoop(enemy)
+    player.levelUpXP += 20
 def StartRoom(player):
     prints("The entrance to the cave opens before you, and as you enter, an eerie feeling sets in. Unholy might fills the caverns, as the blood stains on the walls foretell doom. You resolve yourself, with a heart pure as steel, and look at the paths before you.\n")
     player.gold += 10
 def Treasure(player):
-    global levelUpXP
     goldGained = d(4)+d(4)+d(4)+d(4)+d(4)+d(4)
     itemInChest = ItemsList[random.randint(0,len(ItemsList)-1)]
-    prints("Before you lies a large, wooden box with a hatch on it. Instinctively, you open it, revealing the treasure inside.\nYou gained ",goldGained," gold and a ",itemInChest,"!\n")
+    prints("Before you lies a large, wooden box with a hatch on it. Instinctively, you open it, revealing the treasure inside.\nYou gained ",goldGained," gold and a ",itemInChest.name,"!\n")
     player.gold += goldGained
     player.addItem(itemInChest)
-    levelUpXP += 2
+    player.levelUpXP += 2
     
 def Rest(player):
-    equipdict = {"Off-Hand":player.equipOffHand(),"Armor":player.equipArmor(),"Weapon":player.equipWeapon()}
+    equipdict = {"Off-Hand":player.equipOffHand,"Armor":player.equipArmor,"Weapon":player.equipWeapon}
     prints("At the end of this tunnel, you find a cozy, lit campfire with an empty bedroll set down. After careful inspection, it appears to be fine.\n")
     while True:
         prints("Would you like to 'rest,' or view your 'inventory?' Or, you may also 'leave' this campfire.\n")

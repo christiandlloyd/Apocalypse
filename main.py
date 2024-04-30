@@ -1,8 +1,6 @@
 from functions import *
-import random
 from class_and_item_list import *
 from enemies import *
-random.seed()
 #The below prints out the opening. The Warlock anbd Demon change every launch
 
 
@@ -10,5 +8,4 @@ prints("Welcome to 'Apocalypse!' An evil sorcerer, ", warlockName," threatens to
 
 prints(" It is up to you to stop him, hero, lest the universe fall into the hands of evil once more.\n")
 
-player = MainMenu()
-Movement(GenerateMap())
+MainMenu()

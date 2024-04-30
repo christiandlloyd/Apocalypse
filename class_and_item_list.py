@@ -142,13 +142,15 @@ class Character: #Class for a character set up, intakes stats and default Health
         self.items = []
         self.backpack = []
         self.defaultClass = self
+        self.level = 1
+        self.levelUpXP =  0
         Characters.append(self)
     def addCondition(self, condition):
         self.appliedConditions.append(condition)
-        self.appliedConditionsDict[condition] = condition.turns
+        self.appliedConditionsDict[condition.name] = condition.turns
     def remCondition(self, condition):
-        self.appliedConditions.pop(condition)
-        del self.appliedConditionsDict[condition]
+        self.appliedConditions.pop(self.appliedConditions.index(condition))
+        self.appliedConditionsDict.pop(condition.name)
     def addSkills(self, skill1):
         self.skills.append(skill1)
         self.skillNames.append(skill1.name)
